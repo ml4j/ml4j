@@ -1,0 +1,49 @@
+/*
+ * Copyright 2017 the original author or authors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
+ */
+
+package org.ml4j.nn;
+
+import org.ml4j.nn.components.onetone.DefaultChainableDirectedComponentActivation;
+import org.ml4j.nn.costfunctions.CostFunctionGradient;
+import org.ml4j.nn.neurons.NeuronsActivation;
+
+/**
+ * Encapsulates the artifacts generated from a forward propagation through a
+ * DirectedNeuralNetwork.
+ * 
+ * @author Michael Lavelle
+ */
+public interface ForwardPropagation extends DefaultChainableDirectedComponentActivation {
+
+	/**
+	 * @param neuronActivationGradient The CostFunctionGradient to back propagate.
+	 * @param context The context within which to perform the back propagation.
+	 * @return A BackPropagation instance encapsulating the result of a back propagation of gradients
+	 * through this ForwardPropagation.
+	 */
+	BackPropagation backPropagate(CostFunctionGradient neuronActivationGradient, DirectedNeuralNetworkContext context);
+
+	/**
+	 * @param context The context.
+	 * @return The regularisation cost of this forward propagation.
+	 */
+	float getTotalRegularisationCost(DirectedNeuralNetworkContext context);
+	
+	
+	/**
+	 * @return The activation input on the LHS of the forward propagation.
+	 */
+	NeuronsActivation getInput();
+
+}

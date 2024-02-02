@@ -1,0 +1,26 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>org.ml4j</groupId>
+		<artifactId>ml4j</artifactId>
+		<version>2.0.0-SNAPSHOT</version>
+	</parent>
+	<artifactId>ml4j-api</artifactId>
+	<version>2.0.0.RC1</version>
+	<packaging>pom</packaging>
+	<modules>
+		<module>ml4j-matrices-api</module>
+		<module>ml4j-base-api</module>
+		<module>ml4j-axons-api</module>
+		<module>ml4j-streams-api</module>
+		<module>ml4j-datasets-api</module>
+		<module>ml4j-builders-api</module>
+		<module>ml4j-components-api</module>
+		<module>ml4j-synapses-api</module>
+		<module>ml4j-layers-api</module>
+		<module>ml4j-nn-api</module>
+		<module>ml4j-sessions-api</module>
+	</modules>
+</project>
