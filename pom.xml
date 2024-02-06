@@ -9,19 +9,14 @@
 	<name>ml4j</name>
 	 <modules>
 		<module>ml4j-core</module>
-		<module>autograd</module>
 		<module>ml4j-tensors-base-api</module>
 		<module>ml4j-tensors-base-impl</module>
-   		<module>ml4j-api</module>	
+   		<module>ml4j-api</module>
 		<module>ml4j-impl</module>	
 		<module>ml4j-tensors-api</module>
 		<module>ml4j-tensors-impl</module>
 		<module>ml4j-components</module>
 		<module>ml4j-optimised-components</module>
-		<module>neural-network-architectures</module>
-		<module>ml4j-quickstart</module>
-		<module>yolo-v2</module>
-		<module>inception-v4</module>
 		<module>ml4j-imaging</module>
 	 </modules>
 
