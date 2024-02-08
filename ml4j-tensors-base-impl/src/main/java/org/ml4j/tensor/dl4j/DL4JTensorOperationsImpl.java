@@ -6,6 +6,11 @@ import org.ml4j.tensor.Size;
 import org.ml4j.tensor.djl.DJLTensorOperations;
 import org.nd4j.linalg.api.ndarray.INDArray;
 import org.nd4j.linalg.factory.Nd4j;
+import org.nd4j.linalg.indexing.BooleanIndexing;
+import org.nd4j.linalg.indexing.INDArrayIndex;
+import org.nd4j.linalg.indexing.NDArrayIndex;
+import org.nd4j.linalg.indexing.SpecifiedIndex;
+import org.nd4j.linalg.indexing.conditions.Conditions;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -116,7 +121,13 @@ public class DL4JTensorOperationsImpl implements DL4JTensorOperations {
 
 	@Override
 	public DL4JTensorOperations relu() {
-		return applyUnaryOperation(n -> n.gt(Nd4j.zeros(getNDArray().shape())).mul(getNDArray()));
+
+		INDArray booleanArray = getNDArray().dup();
+		INDArray ones = Nd4j.ones(getNDArray().shape());
+		INDArray zeros = Nd4j.zeros(getNDArray().shape());
+		BooleanIndexing.replaceWhere(booleanArray, ones, Conditions.greaterThan(0));
+		BooleanIndexing.replaceWhere(booleanArray, zeros, Conditions.lessThanOrEqual(0));
+		return applyUnaryOperation(n -> booleanArray.mul(getNDArray()));
 	}
 
 	@Override
@@ -157,7 +168,7 @@ public class DL4JTensorOperationsImpl implements DL4JTensorOperations {
 			if (getNDArray().shape().length == 0) {
 				return new DL4JTensorOperationsImpl(new Size(), getNDArray().getFloat(0));
 			}
-			return create(getNDArray().sum(0));
+			return create(getNDArray().sum());
 		}
 	}
 
@@ -173,17 +184,31 @@ public class DL4JTensorOperationsImpl implements DL4JTensorOperations {
 
 	@Override
 	public DL4JTensorOperations getTensor(int... indexes) {
-		List<String> inds = new ArrayList<>();
+
+
+		INDArrayIndex[] selected = new INDArrayIndex[indexes.length];
 		for (int i = 0; i < indexes.length; i++) {
-			inds.add(indexes[i] == -1 ? ":" : (indexes[i] + ""));
+			if (indexes[i] == -1) {
+				selected[i] = NDArrayIndex.all();
+			} else {
+				selected[i] = new SpecifiedIndex(indexes[i]);
+			}
 		}
-		String r = inds.toString().replace("[","").replace("]", "");
-		throw new UnsupportedOperationException();
+		return applyUnaryOperation(t -> t.get(selected));
 	}
 
 	@Override
 	public DL4JTensorOperations getTensor(int[]... ranges) {
-		throw new UnsupportedOperationException();
+
+		INDArrayIndex[] selected = new INDArrayIndex[ranges.length];
+		for (int i = 0; i < ranges.length; i++) {
+			if (ranges[i][0] == -1 && ranges[i][1] == -1) {
+				selected[i] = NDArrayIndex.all();
+			} else {
+				selected[i] = new SpecifiedIndex(ranges[i]);
+			}
+		}
+		return applyUnaryOperation(t -> t.get(selected));
 	}
 
 	@Override

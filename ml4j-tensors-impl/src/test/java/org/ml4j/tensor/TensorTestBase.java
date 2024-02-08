@@ -200,6 +200,7 @@ public abstract class TensorTestBase<T extends Tensor<T, D>, D> extends TestBase
 
         d = d.add(d.mul(3).add(b.sub(a).relu()));
 
+
         var e = c.sub(d);
 
         var f = e.mul(e);
@@ -332,7 +333,12 @@ public abstract class TensorTestBase<T extends Tensor<T, D>, D> extends TestBase
 
         var a = createGradValue(-4f, true, new Size(2, 2)).name_("a");
 
+        System.out.println("A:" + a.data().get());
+
         var c = a.getTensor(-1, 0);
+
+        System.out.println("C:" + c.data().get());
+
 
         assertEquals(createData(-4, new Size(2, 1)), c.data().get());
     }
@@ -360,7 +366,7 @@ public abstract class TensorTestBase<T extends Tensor<T, D>, D> extends TestBase
             Assertions.assertEquals(isNativeGradientExpected(), right.grad(false).isNativeGradient());
         }
 
-        Assertions.assertNotNull(left.grad());
+         Assertions.assertNotNull(left.grad());
         System.out.println(left.grad().size());
         Assertions.assertEquals(3, left.grad().size().dimensions().length);
         Assertions.assertEquals(2, left.grad().size().dimensions()[0]);

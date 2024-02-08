@@ -16,17 +16,17 @@ package org.ml4j.tensor.ml4j;
 
 
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.ml4j.Matrix;
 import org.ml4j.MatrixFactory;
 import org.ml4j.autograd.impl.AutogradValueProperties;
-import org.ml4j.jblas.JBlasRowMajorMatrixFactory;
 import org.ml4j.nd4j.Nd4jRowMajorMatrixFactory;
 import org.ml4j.nn.components.DirectedComponentsContext;
 import org.ml4j.nn.components.DirectedComponentsContextImpl;
 import org.ml4j.tensor.Size;
 import org.ml4j.tensor.TensorTestBase;
+import org.ml4j.tensor.dl4j.*;
+import org.nd4j.linalg.factory.Nd4j;
 
 public class ML4JTensorTest extends TensorTestBase<ML4JTensor, ML4JTensorOperations> {
 
@@ -35,14 +35,12 @@ public class ML4JTensorTest extends TensorTestBase<ML4JTensor, ML4JTensorOperati
 
 	private static DirectedComponentsContext context =  new DirectedComponentsContextImpl(matrixFactory, true);
 
-	/* TODO Delete or replace below
 	@Test
-	@Disabled
 	public void switchTest() {
 
 		var a = createGradValue(-4f, true, new Size(2, 2)).name_("a");
 
-		var b = createGradValue(-4f, true, new Size(2, 2)).name_("a");
+		var b = createGradValue(-4f, true, new Size(2, 2)).name_("b");
 
 		if (!isNativeGradientExpected()) {
 			a.getGradNode().setDisableNativeGradient(true);
@@ -50,7 +48,8 @@ public class ML4JTensorTest extends TensorTestBase<ML4JTensor, ML4JTensorOperati
 
 		var c = a.add(b);
 
-		var s = c.toDL4JTensor();
+		// Convert c to Dl4j Tensor
+		var s = new DL4JFromML4JTensorWrapperImpl(c);
 
 		var u = s.mul(s);
 
@@ -67,7 +66,6 @@ public class ML4JTensorTest extends TensorTestBase<ML4JTensor, ML4JTensorOperati
 		}
 	}
 
-	 */
 
 
 	@Override
@@ -142,7 +140,7 @@ public class ML4JTensorTest extends TensorTestBase<ML4JTensor, ML4JTensorOperati
 		if (dims.length != 2) {
 			throw new IllegalArgumentException();
 		}
-		return new ML4JTensorImpl(context, context.getMatrixFactory().createMatrixFromRowsByRowsArray(dims[0], dims[1], data), new AutogradValueProperties<Size>().setContext(new Size(dims)));
+		return new ML4JTensorImpl(context, context.getMatrixFactory().createMatrixFromRowsByRowsArray(dims[0], dims[1], data), new AutogradValueProperties<Size>().setRegistry(registry).setContext(new Size(dims)));
 	}
 
 	@Override

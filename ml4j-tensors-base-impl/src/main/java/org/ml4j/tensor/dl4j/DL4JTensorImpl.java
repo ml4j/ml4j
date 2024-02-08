@@ -82,7 +82,8 @@ public class DL4JTensorImpl extends DifferentiableWrappedTensorOperations<DL4JTe
 		return this.applyBinaryOperator(other, (f, s) -> f.matmul(s), (g, p) -> {
 			Size origGSize = sizes[3];
 			DL4JTensor r = g.reshape(sizes[2]).matmul(p.getRight().t());
-			//g.resize_(size());
+
+			r.resize_(size());
 			return r;
 		}, (g, p) -> {
 			Size origGSize = sizes[3];

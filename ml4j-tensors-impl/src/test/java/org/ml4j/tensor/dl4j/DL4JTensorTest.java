@@ -15,10 +15,14 @@
 package org.ml4j.tensor.dl4j;
 
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import org.ml4j.autograd.impl.AutogradValueProperties;
 import org.ml4j.tensor.Size;
 import org.ml4j.tensor.TensorTestBase;
 import org.ml4j.tensor.djl.DJLTensorOperations;
+import org.ml4j.tensor.ml4j.ML4JFromDL4JTensorWrapperImpl;
+import org.ml4j.tensor.ml4j.ML4JTensor;
+import org.ml4j.tensor.ml4j.ML4JTensorFactory;
 import org.ml4j.tensor.ml4j.ML4JTensorOperations;
 import org.nd4j.linalg.factory.Nd4j;
 
@@ -33,6 +37,38 @@ public class DL4JTensorTest extends TensorTestBase<DL4JTensor, DL4JTensorOperati
 	}
 
 	 */
+
+	@Test
+	public void switchTest() {
+
+		var a = createGradValue(-4f, true, new Size(2, 2)).name_("a");
+
+		var b = createGradValue(-4f, true, new Size(2, 2)).name_("b");
+
+		if (!isNativeGradientExpected()) {
+			a.getGradNode().setDisableNativeGradient(true);
+		}
+
+		var c = a.add(b);
+
+		// Convert c to ML4J Tensor
+		var s = new ML4JFromDL4JTensorWrapperImpl(ML4JTensorFactory.DEFAULT_DIRECTED_COMPONENTS_CONTEXT, c);
+
+		var u = s.mul(s);
+
+		assertEquals(createData(-8f, new Size(2, 2)), c.data().get());
+
+		u.backward();
+
+		assertEquals(createData(-16f, new Size(2, 2)), c.grad().data().get());
+
+		assertEquals(createData(-16f, new Size(2, 2)), a.grad().data().get());
+
+		if (isNativeGradientSupported()) {
+			Assertions.assertEquals(isNativeGradientExpected(), a.grad().isNativeGradient());
+		}
+	}
+
 
 	/*
 	@Test
@@ -74,7 +110,10 @@ public class DL4JTensorTest extends TensorTestBase<DL4JTensor, DL4JTensorOperati
 		}
 	}
 
+	 */
 
+
+	/*
 	@Test
 	public void switchTest2() {
 
@@ -128,9 +167,7 @@ public class DL4JTensorTest extends TensorTestBase<DL4JTensor, DL4JTensorOperati
 
 		Assert.assertFalse(a.grad().isNativeGradient());
 	}
-
-
-	 */
+	*/
 
 	@Override
 	protected DL4JTensor createGradValue(float value, boolean requires_grad) {
@@ -219,22 +256,5 @@ public class DL4JTensorTest extends TensorTestBase<DL4JTensor, DL4JTensorOperati
 	}
 
 
-	@Override
-	public void testMatMul() {
-	}
 
-	@Override
-	public void test_get_row() {
-		//super.test_get_row();
-	}
-
-	@Override
-	public void test_sum() {
-		//super.test_sum();
-	}
-
-	@Override
-	public void test_example() {
-
-	}
 }

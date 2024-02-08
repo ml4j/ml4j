@@ -32,6 +32,8 @@ public class DL4JTensorTest extends TensorTestBase<DL4JTensor, DL4JTensorOperati
 
 	 */
 
+
+
 	/*
 	@Test
 	public void switchTest() {
@@ -206,23 +208,4 @@ public class DL4JTensorTest extends TensorTestBase<DL4JTensor, DL4JTensorOperati
 		return new DL4JTensorImpl(Nd4j.create(data, dims), false, registry);
 	}
 
-
-	@Override
-	public void testMatMul() {
-	}
-
-	@Override
-	public void test_get_row() {
-		//super.test_get_row();
-	}
-
-	@Override
-	public void test_sum() {
-		//super.test_sum();
-	}
-
-	@Override
-	public void test_example() {
-
-	}
 }

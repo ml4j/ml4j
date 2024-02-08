@@ -11,6 +11,7 @@ import org.ml4j.tensor.Operatable;
 import org.ml4j.tensor.Operation;
 import org.ml4j.tensor.Size;
 import org.ml4j.tensor.djl.DJLTensorOperations;
+import org.ml4j.tensor.dl4j.DL4JTensorOperations;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,6 +36,10 @@ public class ML4JTensorOperationsImpl implements ML4JTensorOperations, Operatabl
 	}
 
 	public ML4JTensorOperationsImpl(DirectedComponentsContext directedComponentsContext, DJLTensorOperations other) {
+		this(directedComponentsContext, directedComponentsContext.getMatrixFactory().createMatrixFromRowsByRowsArray(other.size().dimensions()[0], other.size().dimensions()[1], other.getDataAsFloatArray()), other.size());
+	}
+
+	public ML4JTensorOperationsImpl(DirectedComponentsContext directedComponentsContext, DL4JTensorOperations other) {
 		this(directedComponentsContext, directedComponentsContext.getMatrixFactory().createMatrixFromRowsByRowsArray(other.size().dimensions()[0], other.size().dimensions()[1], other.getDataAsFloatArray()), other.size());
 	}
 
