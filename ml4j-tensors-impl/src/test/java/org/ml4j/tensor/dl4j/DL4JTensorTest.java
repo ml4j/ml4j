@@ -206,7 +206,7 @@ public class DL4JTensorTest extends TensorTestBase<DL4JTensor, DL4JTensorOperati
 	}
 
 	protected void assertEquals(DJLTensorOperations value1, ML4JTensorOperations value2) {
-		float[] m1 = value1.getNDArray().toFloatVector();
+		float[] m1 = value1.getNDArray().toFloatArray();
 		float[] m2 = value2.getMatrix().getRowByRowArray();
 		Assertions.assertEquals(m1.length,  m2.length);
 		for (int i = 0; i < m1.length; i++) {

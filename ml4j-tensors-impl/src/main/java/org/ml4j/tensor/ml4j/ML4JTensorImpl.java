@@ -23,6 +23,7 @@ import org.ml4j.tensor.Size;
 import org.ml4j.tensor.Tensor;
 import org.ml4j.tensor.TensorOperations;
 import org.ml4j.tensor.djl.DJLTensor;
+import org.ml4j.tensor.djl.DJLTensorImpl;
 import org.ml4j.tensor.dl4j.DL4JTensor;
 
 import java.util.Optional;
@@ -43,6 +44,10 @@ public class ML4JTensorImpl extends DifferentiableWrappedTensorOperations<ML4JTe
 
 	public ML4JTensorImpl(DirectedComponentsContext context, Matrix matrix, AutogradValueProperties<Size> properties) {
 		this(context, () -> new ML4JTensorOperationsImpl(context, matrix, properties.getContext()), properties);
+	}
+
+	public ML4JTensorImpl(DJLTensor other, DirectedComponentsContext context) {
+		this(other, da -> da == null ? null : new ML4JTensorOperationsImpl(context, da), s -> s, d -> d == null ? null : new ML4JTensorImpl(d, context), m -> m == null ? null : new DJLTensorImpl(m), null,context, null);
 	}
 
 	public DirectedComponentsContext getDirectedComponentsContext() {
