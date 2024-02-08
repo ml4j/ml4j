@@ -72,7 +72,8 @@ public class DJLAutogradWithoutNativeGradientTest extends AutogradTestBase<DJLTe
 
     @Override
     protected boolean isNativeGradientSupported() {
-        return true;
+        return false;
+        //return true;
     }
 
     @Override

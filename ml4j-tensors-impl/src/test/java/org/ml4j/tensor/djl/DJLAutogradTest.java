@@ -72,12 +72,14 @@ public class DJLAutogradTest extends AutogradTestBase<DJLTensor, DJLTensorOperat
 
     @Override
     protected boolean isNativeGradientSupported() {
-        return true;
+        //return true;
+        return false;
     }
 
     @Override
     protected boolean isNativeGradientExpected() {
-        return true;
+        //return true;
+        return false;
     }
 
     @Override

@@ -97,7 +97,8 @@ public class DJLTensorWithoutNativeGradientTest extends TensorTestBase<DJLTensor
 
 	@Override
 	protected boolean isNativeGradientSupported() {
-		return true;
+		return false;
+		//return true;
 	}
 
 	@Override

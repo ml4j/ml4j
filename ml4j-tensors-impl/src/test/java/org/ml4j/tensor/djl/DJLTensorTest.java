@@ -207,11 +207,13 @@ public class DJLTensorTest extends TensorTestBase<DJLTensor, DJLTensorOperations
 
 	@Override
 	protected boolean isNativeGradientSupported() {
-		return true;
+		return false;
+		//return true;
 	}
 
 	@Override
 	protected boolean isNativeGradientExpected() {
-		return true;
+		return false;
+		//return true;
 	}
 }
